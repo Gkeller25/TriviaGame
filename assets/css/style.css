@@ -1,0 +1,39 @@
+
+ html{
+     min-height: 100%;
+ }
+ @font-face {font-family:"STARWARS";src:url("../images/STARWARS.ttf") format("truetype");font-weight:normal;font-style:normal;}
+ body{font-family:"STARWARS";
+   min-height: 100%;
+   background-image: url("../images/wp2223042-star-wars-the-last-jedi-wallpapers.jpg"); 
+     background-position: center 30%;
+   background-repeat: no-repeat;
+}
+#mainContent{
+
+min-height: 100%;
+}
+header{
+    background:   rgba(128, 128, 128, 0.60);
+}
+footer{
+    background:   rgba(128, 128, 128, 0.60);
+}
+#questionCard{
+  
+  background:   rgba(128, 128, 128, 0.60);
+}
+li{
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    border: 1px solid rgba(0, 0, 0, .25);
+    background:  rgba(248, 249, 250, 0.20);  
+}
+ul{
+    background:  rgba(248, 249, 250, 0.20); 
+}
+input{
+    background:  rgba(248, 249, 250, 0.20); 
+}
