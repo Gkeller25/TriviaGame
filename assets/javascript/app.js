@@ -2,6 +2,7 @@ $(document).ready(function() {
 var imageCorrect =[$('<img class="card-img-top"src="assets/images/bb8TUp.gif" id="correctImage" alt="Card image cap">'), $('<img class="card-img-top"src="assets/images/chewy.gif" id="correctImage" alt="Card image cap">'), $('<img class="card-img-top"src="assets/images/lando.gif" id="correctImage" alt="Card image cap">')];
 var imageIncorrect =[$('<img class="card-img-top"src="assets/images/bb8shock.gif" id="incorrectImage" alt="Card image cap">'), $('<img class="card-img-top"src="assets/images/porg.gif" id="incorrectImage" alt="Card image cap">'), $('<img class="card-img-top"src="assets/images/IndyBB8.gif" id="incorrectImage" alt="Card image cap">'), $('<img class="card-img-top"src="assets/images/piet.gif" id="incorrectImage" alt="Card image cap">')];
 var imageEnd = [$('<img class="card-img-top"src="assets/images/disneyStarwars.gif" id="endImage" alt="Card image cap">'), $('<img class="card-img-top"src="assets/images/DisneyVader.gif" id="endImage" alt="Card image cap">')];
+
 var questions = [
     {question:"What planet is Han Solo from?", choices: [{c1:"Corellia", c2:"Carida", c3:"Corusant", c4:"Talus"}], answer:"Corellia"},
     {question:"What kind of racing was popular on the planet Tatooine?", choices:[{c1:"Dewback Racing", c2:"Bantha Racing", c3:"Speeder Racing", c4:"Podracing"}], answer:"Podracing"},
@@ -11,8 +12,8 @@ var questions = [
     {question:"Which of the following is not a variants of Tie fighter?", choices:[{c1:"Tie Silencer", c2:"Tie Advanced", c3:"Tie Avenger", c4:"Tie Interceptor"}], answer:"Tie Avenger"},
     {question:"What was the first target of the Death Star", choices:[{c1:"Scarif", c2:"Alderaan", c3:"Eadu", c4:"Jedha"}], answer:"Jedha"},
     {question:"Which of the following is not a class of Rebel starfighters?", choices:[{c1:"X-wing", c2:"C-wing", c3:"B-wing", c4:"A-wing"}], answer:"C-wing"},
-    {question:"Who was the template for the creation of Clone Troopers?", choices:[{c1:"Boba Fett", c2:"Sifo-Dyas", c3:"Qui-gon Jinn", c4:"Jango Fett"}], answer:"a"},
-    {question:"On which planet did Han Solo get frozen in Carbonite?", choices:[{c1:"Bespin", c2:"Hoth", c3:"Tatooine", c4:"Dagobah"}], answer:"a"}
+    {question:"Who was the template for the creation of Clone Troopers?", choices:[{c1:"Boba Fett", c2:"Sifo-Dyas", c3:"Qui-gon Jinn", c4:"Jango Fett"}], answer:"Jango Fett"},
+    {question:"On which planet did Han Solo get frozen in Carbonite?", choices:[{c1:"Bespin", c2:"Hoth", c3:"Tatooine", c4:"Dagobah"}], answer:"Bespin"}
 
     ];
 var questionsAvailable = questions.length;
@@ -24,39 +25,26 @@ var number = 20;
 var questionStatus = {};
 var guess ={};
 
-console.log(questions[0].choices[0]);
-console.log(questions.length);
-console.log(correct);
-console.log(incorrect);
 
 //button needs to begin the game
-$("#begin").on("click", function(){
+$("#begin").on("click", function() {
     $("#begin").hide();
     prepareScreen();
 });
 
 
-function prepareScreen(){
+function prepareScreen() {
     $("#content").empty();
+    var newArr = shuffle(questions);
     setQuestion();
 }
 
 //creates question w/ its choices into the html
-function setQuestion(){
+function setQuestion() {
    currentQuestion= questions[questionIndex].valueOf();
    questionIndex ++; 
+
 //determine which choices are right and wrong
-//$()currentQuestion.choices[0]
-
-
-
-
-
-     console.log(currentQuestion);
-     console.log(questionIndex);
-     console.log(questionsAvailable);
-
-    //timer
     
   
 $("#content").append($('<h1 id="time">' + number +"</h1>"));
@@ -75,10 +63,10 @@ $("#choiceList").append($('<li class="list" id="fourth">' + '</li>'));
 $("#choiceList").append($('<li class="list" id="fifth">' + '</li>'));
 
 
-$("#first").append($('<input class="options" id=option1 type="radio" name="choice"  >'+ currentQuestion.choices[0].c1 +"<br>"));
-$("#second").append($('<input class="options" id=option2 type="radio" name="choice" >'+ currentQuestion.choices[0].c2 +"<br>"));
-$("#third").append($('<input class="options" id=option3 type="radio" name="choice" >'+ currentQuestion.choices[0].c3 +"<br>"));
-$("#fourth").append($('<input class="options" id=option4 type="radio" name="choice" >'+ currentQuestion.choices[0].c4 +"<br>"));
+$("#first").append($('<input class="options" id=option1 type="radio" name="choice"  >' + currentQuestion.choices[0].c1 +"<br>"));
+$("#second").append($('<input class="options" id=option2 type="radio" name="choice" >' + currentQuestion.choices[0].c2 +"<br>"));
+$("#third").append($('<input class="options" id=option3 type="radio" name="choice" >' + currentQuestion.choices[0].c3 +"<br>"));
+$("#fourth").append($('<input class="options" id=option4 type="radio" name="choice" >' + currentQuestion.choices[0].c4 +"<br>"));
 
 
 //$("#question").text(currentQuestion.question); Still need this?
@@ -90,9 +78,7 @@ $("#option4").attr("value", currentQuestion.choices[0].c4);
 //returns option1
 
 
-
-
-$(".options").each(function(){
+$(".options").each(function() {
     if( $(this).prop("value") === currentQuestion.answer){
         rightAnswer=$(this);
         
@@ -104,61 +90,43 @@ $(".options").each(function(){
     }
 
 })
-console.log(wrongAnswer);
+
 //returns the #id of the radio button pressed
-$(".options").one("click", function(){
-      
+$(".options").one("click", function() {   
       guess=$(this).attr("id");
-      console.log(guess);
       choiceSelected = true;
 });
 
 $("#fifth").append($('<button type="button" class="btn btn-primary" id="ready">' + "Ready!" + "</button>"));
 
-
-
 function run() {
     myInterval = setInterval(myTimer, 1000);
    
-   function myTimer(){
+   function myTimer() {
        number--;
        $("#time").html(number);
        if(number === 0){
            clearInterval(myInterval);
-           console.log("reallyReallyreally");
            timeExpired(); 
        }
    }}
 
 
-
-$("#ready").on("click", function(){
-    console.log($(guess));
+$("#ready").on("click", function() {
     if(choiceSelected === true){
-        
-
      selectedAnswer =$("input:radio[name=choice]:checked").val(); 
     $("#ready").parent().hide();
-    console.log(selectedAnswer); 
     $(".options").attr("disabled",  "true");
     
 
 //how to tell if the answer is correct
 if(selectedAnswer === currentQuestion.answer){
-    console.log("yes");
-    console.log(selectedAnswer);
-    console.log(currentQuestion.answer);
     clearInterval(myInterval);
-    
     right();
-    
 }
 //What happens if the answer is correct
 else if(selectedAnswer !== currentQuestion.answer && choiceSelected === true){
-    console.log("no");
-    console.log(selectedAnswer);
     clearInterval(myInterval);
-   
     wrong();
 }
 //how to tell if the answer is wrong
@@ -181,64 +149,59 @@ function right() {
     //image
     var currentImageCorrectIndex = Math.floor(Math.random()*imageCorrect.length);
     var currentCorrectImage = imageCorrect[currentImageCorrectIndex].valueOf();
-    console.log(currentCorrectImage);
     $("#content").prepend(currentCorrectImage);
      
     //color choices
-    
     $(rightAnswer).parent().addClass("bg-success");
     $("li").not($(".bg-success")).hide();
     $("#time").text("You Guessed Right!")
+
     //game score effects
     correct += 1;
     setTimeout(nextQuestion, 3000);
- 
 }
 function wrong() {
-    //image
+    //Random image
     var currentImageIncorrectIndex = Math.floor(Math.random()*imageIncorrect.length);
     var currentIncorrectImage = imageIncorrect[currentImageIncorrectIndex].valueOf();
     $("#content").prepend(currentIncorrectImage);
+
     //color choices
      $("#"+ guess).parent().addClass("Chosen");
-    $(rightAnswer).parent().addClass("bg-success Chosen").after("Test");
+    $(rightAnswer).parent().addClass("bg-success Chosen");
     $("li").not($(".theAnswer")).addClass("bg-danger");
     $("#time").text("You Guessed Wrong!")
     $("li").not($(".Chosen")).hide();
+
     //game score effects
     incorrect += 1;
-    setTimeout(nextQuestion, 20000);
-
+    setTimeout(nextQuestion, 3000);
 };
-function timeExpired(){
+
+function timeExpired() {
     //image
     var currentImageIncorrectIndex = Math.floor(Math.random()*imageIncorrect.length);
     var currentIncorrectImage = imageIncorrect[currentImageIncorrectIndex].valueOf(); 
     $("#content").prepend(currentIncorrectImage);
 
     //color choices
-    
     $(rightAnswer).parent().addClass("theAnswer bg-success");
-    
     $("li").not($(".theAnswer")).hide();
     $("#time").text("Times Up!")
    
     //game score effects
     incorrect += 1;
     setTimeout(nextQuestion, 3000);
-    
 };
 
 
 
-function gameStats(){
+function gameStats() {
     var currentImageEndIndex = Math.floor(Math.random()*imageEnd.length);
     var currentEndImage = imageEnd[currentImageEndIndex].valueOf();
-    console.log(currentEndImage);
     $("#content").empty();
     $("#content").append($('<div class="card" id="stats">'+ '</div>'));
     $("#stats").append(currentEndImage);
-    
     $("#stats").append($('<ul class="list-group list-group-flush" id="statsList">'));
     $("#statsList").append($('<li class="list-group-item" id="choicesRight">' + "Questions Correct: " + correct + '</li>'));
     $("#statsList").append($('<li class="list-group-item" id="choicesWrong">' + "Questions Incorrect: " + incorrect + '</li>'));
@@ -248,46 +211,50 @@ function gameStats(){
 }
 
 
-
-
 //timer
 
 
-function nextQuestion(){
+function nextQuestion() {
     $("#content").empty();
     questionsAvailable--;
     choiceSelected = false;
     if(questionsAvailable > 0){
         number = 20;
-        
-        console.log(correct);
-        console.log(incorrect);
-        console.log(questionsAvailable);
-        console.log(questionIndex);
         setQuestion();
+    } else{
+            clearInterval(myInterval);
+            number = 20;
+            questionIndex=0;
+            gameStats();
     }
-else{
-        console.log("game over");
-        clearInterval(myInterval);
-        number = 30;
-        questionIndex=0;
-        gameStats();
-    }
-   $("#restart").on("click", function(){
-       $("#content").empty();
-    questionsAvailable = questions.length;
-    correct = 0;
-    incorrect = 0;
-    $("#begin").show();
-   });
 
-
-
+    $("#restart").on("click", function() {
+        $("#content").empty();
+        questionsAvailable = questions.length;
+        correct = 0;
+        incorrect = 0;
+        $("#begin").show();
+    });
 
 };  
   
-   
-      
-//once "questionsAvailable" reaches 0 display game stats and display reset button or reincorporate the start button. 
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
 
 });
